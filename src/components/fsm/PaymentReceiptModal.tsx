@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { WorkOrder, PaymentMethod, PaymentReceipt } from '../../types/fsm';
 import { Language, formatBDT, formatDhakaTime } from '../../lib/i18n';
+import { Button } from '../ui/Button';
 import {
   CreditCard,
   QrCode,
@@ -66,21 +67,18 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
       setCompletedReceipt(receipt);
       setIsProcessing(false);
       onPaymentSuccess(receipt);
-    }, 1200);
+    }, 1000);
   };
 
   const handleSendSmsReceipt = () => {
     setSmsNotificationSent(true);
-    setTimeout(() => {
-      alert(`✅ Greenweb SMS & WhatsApp Receipt dispatched to ${payerPhone}!\n\n"আপনার ওয়ার্ক অর্ডার #${workOrder.id}-এর পেমেন্ট ${formatBDT(totalBDT, lang)} (TRX: ${completedReceipt?.transactionId}) সফল হয়েছে।"`);
-    }, 300);
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 font-sans text-slate-900 animate-fadeIn">
-      <div className="bg-white border border-slate-200 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 font-sans text-slate-900 dark:text-slate-100 animate-fadeIn">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
         {/* Top Header Bar */}
-        <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
+        <div className="bg-slate-900 dark:bg-slate-950 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center space-x-2.5">
             <div className="w-9 h-9 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
               ৳
@@ -97,7 +95,7 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition"
+            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -106,15 +104,15 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
         {/* Modal Main Content Area */}
         <div className="p-6 overflow-y-auto space-y-5 text-xs flex-1">
           {/* Work Order Info Card */}
-          <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl space-y-2">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
-              <span>WO ID: <strong className="text-slate-800">{workOrder.id}</strong></span>
-              <span className="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full font-bold border border-indigo-100">
+          <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 p-3.5 rounded-2xl space-y-2">
+            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+              <span>WO ID: <strong className="text-slate-800 dark:text-slate-200">{workOrder.id}</strong></span>
+              <span className="bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold border border-indigo-200 dark:border-indigo-800">
                 {workOrder.siteName}
               </span>
             </div>
-            <div className="font-bold text-slate-900 text-sm">{workOrder.title}</div>
-            <div className="text-slate-600 flex items-center space-x-1">
+            <div className="font-bold text-slate-900 dark:text-slate-100 text-sm">{workOrder.title}</div>
+            <div className="text-slate-600 dark:text-slate-400 flex items-center space-x-1">
               <Building className="w-3.5 h-3.5 text-slate-400 shrink-0" />
               <span>{workOrder.customerName}</span>
             </div>
@@ -125,7 +123,7 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
             <form onSubmit={handleProcessPayment} className="space-y-4">
               {/* Payment Method Selector */}
               <div>
-                <label className="text-slate-700 font-bold block mb-2 uppercase tracking-wider text-[10px]">
+                <label className="text-slate-700 dark:text-slate-300 font-bold block mb-2 uppercase tracking-wider text-[10px]">
                   {lang === 'bn' ? 'পেমেন্ট মেথড নির্বাচন করুন:' : 'Select Payment Gateway / Method:'}
                 </label>
 
@@ -134,92 +132,92 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setSelectedMethod('BKASH')}
-                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 ${
+                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 cursor-pointer ${
                       selectedMethod === 'BKASH'
-                        ? 'bg-pink-50 border-pink-500 ring-2 ring-pink-500/30'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-pink-50 dark:bg-pink-950/50 border-[#E2136E] ring-2 ring-[#E2136E]/30'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-pink-600 text-xs">bKash</span>
-                      <Smartphone className="w-4 h-4 text-pink-500" />
+                      <span className="font-extrabold text-[#E2136E] text-xs">bKash</span>
+                      <Smartphone className="w-4 h-4 text-[#E2136E]" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium">Mobile Financial</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Mobile Financial</span>
                   </button>
 
                   {/* Nagad */}
                   <button
                     type="button"
                     onClick={() => setSelectedMethod('NAGAD')}
-                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 ${
+                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 cursor-pointer ${
                       selectedMethod === 'NAGAD'
-                        ? 'bg-orange-50 border-orange-500 ring-2 ring-orange-500/30'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-orange-50 dark:bg-orange-950/50 border-[#F7941D] ring-2 ring-[#F7941D]/30'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-orange-600 text-xs">Nagad</span>
-                      <QrCode className="w-4 h-4 text-orange-500" />
+                      <span className="font-extrabold text-[#F7941D] text-xs">Nagad</span>
+                      <QrCode className="w-4 h-4 text-[#F7941D]" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium">Post Office MFS</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Post Office MFS</span>
                   </button>
 
                   {/* Upay */}
                   <button
                     type="button"
                     onClick={() => setSelectedMethod('UPAY')}
-                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 ${
+                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 cursor-pointer ${
                       selectedMethod === 'UPAY'
-                        ? 'bg-blue-50 border-blue-500 ring-2 ring-blue-500/30'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-blue-50 dark:bg-blue-950/50 border-[#005CA9] ring-2 ring-[#005CA9]/30'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-blue-600 text-xs">Upay</span>
+                      <span className="font-extrabold text-blue-600 dark:text-blue-400 text-xs">Upay</span>
                       <Smartphone className="w-4 h-4 text-blue-500" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium">UCB MFS</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">UCB MFS</span>
                   </button>
 
                   {/* Cash on Delivery */}
                   <button
                     type="button"
                     onClick={() => setSelectedMethod('CASH_ON_DELIVERY')}
-                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 ${
+                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 cursor-pointer ${
                       selectedMethod === 'CASH_ON_DELIVERY'
-                        ? 'bg-emerald-50 border-emerald-500 ring-2 ring-emerald-500/30'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 ring-2 ring-emerald-500/30'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-emerald-700 text-xs">Cash (COD)</span>
-                      <Banknote className="w-4 h-4 text-emerald-600" />
+                      <span className="font-extrabold text-emerald-700 dark:text-emerald-400 text-xs">Cash (COD)</span>
+                      <Banknote className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium">On-Site Collection</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">On-Site Collection</span>
                   </button>
 
                   {/* SSLCommerz */}
                   <button
                     type="button"
                     onClick={() => setSelectedMethod('SSLCOMMERZ')}
-                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 col-span-2 sm:col-span-2 ${
+                    className={`p-3 rounded-2xl border transition text-left flex flex-col justify-between h-20 col-span-2 sm:col-span-2 cursor-pointer ${
                       selectedMethod === 'SSLCOMMERZ'
-                        ? 'bg-purple-50 border-purple-500 ring-2 ring-purple-500/30'
-                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                        ? 'bg-purple-50 dark:bg-purple-950/50 border-purple-500 ring-2 ring-purple-500/30'
+                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-purple-700 text-xs">SSLCommerz Gateway</span>
+                      <span className="font-extrabold text-purple-700 dark:text-purple-300 text-xs">SSLCommerz Gateway</span>
                       <CreditCard className="w-4 h-4 text-purple-600" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-medium">Visa / Mastercard / Internet Banking</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Visa / Mastercard / Internet Banking</span>
                   </button>
                 </div>
               </div>
 
               {/* Payer Mobile Field */}
               <div>
-                <label className="text-slate-700 font-bold block mb-1">
+                <label className="text-slate-700 dark:text-slate-300 font-bold block mb-1">
                   {lang === 'bn' ? 'গ্রাহকের বিডি মোবাইল নম্বর:' : 'Customer BD Mobile Number:'}
                 </label>
                 <div className="relative">
@@ -230,13 +228,13 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
                     value={payerPhone}
                     onChange={(e) => setPayerPhone(e.target.value)}
                     placeholder="+880 1711-001122"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 font-mono text-slate-800 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-mono text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
               </div>
 
               {/* Breakdown Invoice Card */}
-              <div className="bg-slate-900 text-white p-4 rounded-2xl space-y-2 font-mono text-xs shadow-inner">
+              <div className="bg-slate-900 dark:bg-slate-950 text-white p-4 rounded-2xl space-y-2 font-mono text-xs shadow-inner">
                 <div className="flex justify-between text-slate-400">
                   <span>{lang === 'bn' ? 'মূল সেবা মূল্য (Subtotal):' : 'Service Subtotal:'}</span>
                   <span>{formatBDT(subtotalBDT, lang)}</span>
@@ -252,114 +250,102 @@ export const PaymentReceiptModal: React.FC<PaymentReceiptModalProps> = ({
               </div>
 
               {/* Submit CTA Button */}
-              <button
+              <Button
                 type="submit"
-                disabled={isProcessing}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-lg transition transform active:scale-98"
+                variant="primary"
+                size="lg"
+                isLoading={isProcessing}
+                className="w-full"
+                leftIcon={<ShieldCheck className="w-4 h-4" />}
               >
-                {isProcessing ? (
-                  <>
-                    <Sparkles className="w-4 h-4 animate-spin" />
-                    <span>{lang === 'bn' ? 'পেমেন্ট প্রসেস হচ্ছে...' : 'Processing Payment Gateway...'}</span>
-                  </>
-                ) : (
-                  <>
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>
-                      {lang === 'bn'
-                        ? `${formatBDT(totalBDT, lang)} পেমেন্ট সম্পন্ন করুন`
-                        : `Confirm & Pay ${formatBDT(totalBDT, lang)}`}
-                    </span>
-                  </>
-                )}
-              </button>
+                {lang === 'bn'
+                  ? `${formatBDT(totalBDT, lang)} পেমেন্ট সম্পন্ন করুন`
+                  : `Confirm & Pay ${formatBDT(totalBDT, lang)}`}
+              </Button>
             </form>
           ) : (
             /* COMPLETED RECEIPT VIEW */
             <div className="space-y-4 animate-fadeIn">
-              <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-emerald-800 text-center space-y-1">
-                <CheckCircle2 className="w-8 h-8 mx-auto text-emerald-600" />
+              <div className="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 p-4 rounded-2xl text-emerald-800 dark:text-emerald-200 text-center space-y-1">
+                <CheckCircle2 className="w-8 h-8 mx-auto text-emerald-600 dark:text-emerald-400" />
                 <div className="font-extrabold text-sm">
                   {lang === 'bn' ? 'পেমেন্ট সফল ও এনবিআর চালান তৈরী হয়েছে!' : 'Payment Completed & NBR Receipt Issued!'}
                 </div>
-                <div className="text-[11px] font-mono text-emerald-700">
+                <div className="text-[11px] font-mono text-emerald-700 dark:text-emerald-300">
                   Trx ID: <strong>{completedReceipt.transactionId}</strong>
                 </div>
               </div>
 
               {/* Printable Official NBR Receipt */}
-              <div className="bg-white border border-slate-300 p-4 rounded-2xl space-y-3 font-mono text-xs shadow-xs text-slate-800">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-3 font-mono text-xs shadow-xs text-slate-800 dark:text-slate-200">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                   <div>
-                    <h4 className="font-extrabold text-sm text-slate-900">OFFICIAL NBR TAX INVOICE</h4>
-                    <p className="text-[10px] text-slate-500">Government of the People's Republic of Bangladesh</p>
+                    <h4 className="font-extrabold text-sm text-slate-900 dark:text-slate-100">OFFICIAL NBR TAX INVOICE</h4>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">Government of the People's Republic of Bangladesh</p>
                   </div>
-                  <div className="text-right text-[10px] text-slate-500">
-                    <div className="font-bold text-slate-800">{completedReceipt.nbrBin}</div>
+                  <div className="text-right text-[10px] text-slate-500 dark:text-slate-400">
+                    <div className="font-bold text-slate-800 dark:text-slate-200">{completedReceipt.nbrBin}</div>
                     <div>{formatDhakaTime(completedReceipt.paidAt, lang)}</div>
                   </div>
                 </div>
 
-                <div className="space-y-1 text-[11px] py-1 border-b border-slate-100">
+                <div className="space-y-1 text-[11px] py-1 border-b border-slate-100 dark:border-slate-800">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Work Order ID:</span>
+                    <span className="text-slate-500 dark:text-slate-400">Work Order ID:</span>
                     <span className="font-bold">{workOrder.id}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Customer Name:</span>
+                    <span className="text-slate-500 dark:text-slate-400">Customer Name:</span>
                     <span className="font-bold">{workOrder.customerName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Payment Gateway:</span>
-                    <span className="font-bold text-indigo-600 uppercase">{completedReceipt.method}</span>
+                    <span className="text-slate-500 dark:text-slate-400">Payment Gateway:</span>
+                    <span className="font-bold text-indigo-600 dark:text-indigo-400 uppercase">{completedReceipt.method}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Payer Mobile:</span>
+                    <span className="text-slate-500 dark:text-slate-400">Payer Mobile:</span>
                     <span className="font-bold">{completedReceipt.payerPhone}</span>
                   </div>
                 </div>
 
                 <div className="space-y-1 text-xs pt-1">
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-400">
                     <span>Base Service Charge:</span>
                     <span>{formatBDT(completedReceipt.subtotalBDT, lang)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-400">
                     <span>NBR VAT (15%):</span>
-                    <span className="text-emerald-700">+{formatBDT(completedReceipt.vatBDT, lang)}</span>
+                    <span className="text-emerald-700 dark:text-emerald-400">+{formatBDT(completedReceipt.vatBDT, lang)}</span>
                   </div>
-                  <div className="pt-2 border-t border-slate-200 flex justify-between font-extrabold text-sm text-slate-900">
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex justify-between font-extrabold text-sm text-slate-900 dark:text-slate-100">
                     <span>Total Paid:</span>
-                    <span className="text-indigo-600">{formatBDT(completedReceipt.totalBDT, lang)}</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">{formatBDT(completedReceipt.totalBDT, lang)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Receipt Actions */}
               <div className="flex items-center space-x-2">
-                <button
+                <Button
                   onClick={handleSendSmsReceipt}
-                  className={`flex-1 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-1.5 transition ${
-                    smsNotificationSent
-                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                      : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'
-                  }`}
+                  variant={smsNotificationSent ? 'success' : 'primary'}
+                  size="md"
+                  className="flex-1"
+                  leftIcon={<Send className="w-3.5 h-3.5" />}
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>
-                    {smsNotificationSent
-                      ? lang === 'bn' ? 'এসএমএস পাঠানো হয়েছে ✓' : 'SMS Sent via Greenweb ✓'
-                      : lang === 'bn' ? 'গ্রাহককে এসএমএস ও হোয়াটসঅ্যাপ রসিদ পাঠান' : 'Send Greenweb SMS & WhatsApp Receipt'}
-                  </span>
-                </button>
+                  {smsNotificationSent
+                    ? lang === 'bn' ? 'এসএমএস পাঠানো হয়েছে ✓' : 'SMS Sent via Greenweb ✓'
+                    : lang === 'bn' ? 'গ্রাহককে এসএমএস ও হোয়াটসঅ্যাপ রসিদ পাঠান' : 'Send Greenweb SMS Receipt'}
+                </Button>
 
-                <button
+                <Button
                   onClick={() => window.print()}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2.5 rounded-xl text-xs flex items-center space-x-1"
+                  variant="secondary"
+                  size="md"
+                  leftIcon={<Printer className="w-3.5 h-3.5" />}
                 >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Print</span>
-                </button>
+                  Print
+                </Button>
               </div>
             </div>
           )}

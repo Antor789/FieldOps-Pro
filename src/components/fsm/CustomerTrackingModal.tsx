@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { WorkOrder, Technician } from '../../types/fsm';
 import { Language, translations, formatBDT, formatDhakaTime } from '../../lib/i18n';
 import { PaymentReceiptModal } from './PaymentReceiptModal';
+import { Button } from '../ui/Button';
 import {
   MapPin,
   Phone,
@@ -37,10 +38,10 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 font-sans text-slate-900 animate-fadeIn">
-      <div className="bg-white border border-slate-200 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 font-sans text-slate-900 dark:text-slate-100 animate-fadeIn">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[92vh]">
         {/* Top Header */}
-        <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
+        <div className="bg-slate-900 dark:bg-slate-950 text-white p-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center space-x-2.5">
             <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center font-extrabold text-xs">
               FO
@@ -53,7 +54,7 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition"
+            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -62,9 +63,9 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
         {/* Content Area */}
         <div className="p-6 overflow-y-auto space-y-5 text-xs flex-1">
           {/* Status Alert Banner */}
-          <div className="bg-indigo-50 border border-indigo-200 p-4 rounded-2xl space-y-2">
+          <div className="bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 p-4 rounded-2xl space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase font-bold text-indigo-700 tracking-wider">
+              <span className="text-[10px] uppercase font-bold text-indigo-700 dark:text-indigo-300 tracking-wider">
                 {lang === 'bn' ? 'লাইভ স্ট্যাটাস' : 'Live Job Status'}
               </span>
               <span className="bg-indigo-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
@@ -72,17 +73,17 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
               </span>
             </div>
 
-            <div className="font-extrabold text-slate-900 text-sm leading-snug">{workOrder.title}</div>
+            <div className="font-extrabold text-slate-900 dark:text-slate-100 text-sm leading-snug">{workOrder.title}</div>
 
-            <div className="text-slate-600 text-[11px] flex items-center space-x-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+            <div className="text-slate-600 dark:text-slate-400 text-[11px] flex items-center space-x-1.5">
+              <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
               <span>{t.estimatedArrival}: <strong>15-20 mins (Dhaka Traffic)</strong></span>
             </div>
           </div>
 
           {/* Assigned Technician Card */}
           {technician ? (
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-3">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white font-extrabold text-base flex items-center justify-center shadow-md">
                   {technician.firstName[0]}
@@ -90,11 +91,11 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
                 </div>
 
                 <div className="flex-1">
-                  <div className="font-extrabold text-slate-900 text-sm">
+                  <div className="font-extrabold text-slate-900 dark:text-slate-100 text-sm">
                     {technician.firstName} {technician.lastName}
                   </div>
-                  <div className="text-[11px] text-slate-500 font-mono">{technician.vehicleType}</div>
-                  <div className="text-[10px] text-emerald-600 font-bold mt-0.5">
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{technician.vehicleType}</div>
+                  <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-0.5">
                     ✓ Verified Field Specialist (+880 BD)
                   </div>
                 </div>
@@ -122,30 +123,30 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
               </div>
             </div>
           ) : (
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center text-slate-500">
+            <div className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl text-center text-slate-500 dark:text-slate-400">
               {lang === 'bn' ? 'টেকনিশিয়ান বরাদ্দ প্রক্রিয়াধীন...' : 'Technician dispatch in progress...'}
             </div>
           )}
 
           {/* Greenweb SMS Log */}
           {workOrder.lastSmsContent && (
-            <div className="bg-emerald-50 border border-emerald-200 p-3.5 rounded-2xl space-y-1">
-              <div className="flex items-center justify-between text-[10px] font-bold text-emerald-800">
+            <div className="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 p-3.5 rounded-2xl space-y-1">
+              <div className="flex items-center justify-between text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
                 <span className="flex items-center gap-1">
                   <MessageSquare className="w-3 h-3 text-emerald-600" />
                   <span>Greenweb SMS Gateway</span>
                 </span>
                 <span>{formatDhakaTime(workOrder.lastSmsSentAt || new Date(), lang)}</span>
               </div>
-              <div className="text-[11px] text-slate-700 italic">"{workOrder.lastSmsContent}"</div>
+              <div className="text-[11px] text-slate-700 dark:text-slate-300 italic">"{workOrder.lastSmsContent}"</div>
             </div>
           )}
 
           {/* Pricing & bKash Instant Payment Trigger */}
-          <div className="bg-slate-900 text-white p-4 rounded-2xl space-y-3">
+          <div className="bg-slate-900 dark:bg-slate-950 text-white p-4 rounded-2xl space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-[10px] text-slate-400">{lang === 'bn' ? 'অন আনুমানিক সেবা মূল্য' : 'Estimated BDT Fee'}</div>
+                <div className="text-[10px] text-slate-400">{lang === 'bn' ? 'আনুমানিক সেবা মূল্য' : 'Estimated BDT Fee'}</div>
                 <div className="text-lg font-extrabold text-emerald-400 font-mono">
                   {formatBDT(workOrder.pricingEstimatedBDT, lang)}
                 </div>
@@ -160,13 +161,15 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
               </span>
             </div>
 
-            <button
+            <Button
               onClick={() => setShowPaymentModal(true)}
-              className="w-full bg-pink-600 hover:bg-pink-500 text-white font-extrabold py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg transition"
+              variant="primary"
+              size="lg"
+              className="w-full bg-pink-600 hover:bg-pink-700 text-white"
+              leftIcon={<QrCode className="w-4 h-4" />}
             >
-              <QrCode className="w-4 h-4" />
-              <span>{t.payBkashNow} / Nagad (৳)</span>
-            </button>
+              {t.payBkashNow} / Nagad (৳)
+            </Button>
           </div>
         </div>
       </div>
@@ -178,7 +181,6 @@ export const CustomerTrackingModal: React.FC<CustomerTrackingModalProps> = ({
           onClose={() => setShowPaymentModal(false)}
           onPaymentSuccess={() => {
             setShowPaymentModal(false);
-            alert(`✅ Payment confirmed for Work Order #${workOrder.id}! NBR invoice dispatched.`);
           }}
         />
       )}

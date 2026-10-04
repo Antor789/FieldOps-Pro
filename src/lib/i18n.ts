@@ -186,8 +186,9 @@ export const translations = {
  * Example: formatBDT(1500, 'en') => '৳ 1,500'
  * Example: formatBDT(1500, 'bn') => '৳ ১,৫০০'
  */
-export function formatBDT(amount: number, lang: Language = 'en'): string {
-  const formatted = amount.toLocaleString(lang === 'bn' ? 'bn-BD' : 'en-US', {
+export function formatBDT(amount: number = 0, lang: Language = 'en'): string {
+  const safeAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
+  const formatted = safeAmount.toLocaleString(lang === 'bn' ? 'bn-BD' : 'en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });

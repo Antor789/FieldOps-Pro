@@ -184,7 +184,7 @@ export const TelemetrySimulator: React.FC = () => {
                 <span>Ingest Throughput</span>
               </div>
               <p className="text-xl font-bold text-emerald-400">
-                {metricsHistory[metricsHistory.length - 1]?.pingsPerSec.toLocaleString() || pingsPerSec} /s
+                {(metricsHistory[metricsHistory.length - 1]?.pingsPerSec ?? pingsPerSec ?? 0).toLocaleString()} /s
               </p>
             </div>
 
