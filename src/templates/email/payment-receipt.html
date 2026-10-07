@@ -1,0 +1,84 @@
+<div style="font-size: 15px; line-height: 1.6; color: #1e293b;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+    <tr>
+      <td>
+        <span style="background-color: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase;">
+          Payment Received / অর্থ গ্রহণ নিশ্চিতকরণ
+        </span>
+        <h2 style="margin: 8px 0 0 0; color: #0f172a; font-size: 22px; font-weight: 800;">
+          Receipt #{{receipt_number}}
+        </h2>
+      </td>
+      <td align="right">
+        <div style="font-size: 12px; color: #64748b;">Date: {{payment_date}}</div>
+        <div style="font-size: 12px; color: #64748b;">Trx ID: <strong style="color: #0f172a;">{{transaction_id}}</strong></div>
+      </td>
+    </tr>
+  </table>
+
+  <p style="color: #475569; margin-bottom: 24px;">
+    Dear <strong>{{customer_name}}</strong>, thank you for your payment. We have successfully received and processed your service payment for Work Order <strong>#{{work_order_id}}</strong>.
+  </p>
+
+  <!-- Items and Payment Summary Table -->
+  <table width="100%" cellpadding="10" cellspacing="0" style="border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 24px; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; font-size: 12px; color: #64748b; text-transform: uppercase; text-align: left;">
+        <th style="padding: 10px 14px;">Service Description</th>
+        <th style="padding: 10px 14px;" align="center">Qty</th>
+        <th style="padding: 10px 14px;" align="right">Rate (BDT)</th>
+        <th style="padding: 10px 14px;" align="right">Amount (BDT)</th>
+      </tr>
+    </thead>
+    <tbody style="font-size: 13px;">
+      <tr style="border-bottom: 1px solid #f1f5f9;">
+        <td style="padding: 12px 14px;">{{service_title}}<br><span style="font-size: 11px; color: #64748b;">Technician: {{technician_name}}</span></td>
+        <td style="padding: 12px 14px;" align="center">1</td>
+        <td style="padding: 12px 14px;" align="right">৳{{subtotal_amount}}</td>
+        <td style="padding: 12px 14px; font-weight: 600;" align="right">৳{{subtotal_amount}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" align="right" style="padding: 10px 14px; color: #64748b; border-top: 1px solid #e2e8f0;">Subtotal:</td>
+        <td align="right" style="padding: 10px 14px; font-weight: 600; border-top: 1px solid #e2e8f0;">৳{{subtotal_amount}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" align="right" style="padding: 8px 14px; color: #64748b;">Govt. NBR VAT (15%):</td>
+        <td align="right" style="padding: 8px 14px; font-weight: 600; color: #0284c7;">৳{{vat_amount}}</td>
+      </tr>
+      <tr style="background-color: #f8fafc; font-size: 15px;">
+        <td colspan="3" align="right" style="padding: 12px 14px; font-weight: 700; color: #0f172a; border-top: 2px solid #e2e8f0;">Total Paid:</td>
+        <td align="right" style="padding: 12px 14px; font-weight: 800; color: #16a34a; border-top: 2px solid #e2e8f0;">৳{{total_amount}} BDT</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Payment Method and Gateway Box -->
+  <table width="100%" cellpadding="14" cellspacing="0" style="background-color: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 10px; margin-bottom: 24px;">
+    <tr>
+      <td width="70%">
+        <div style="font-size: 12px; font-weight: 700; color: #9d174d; text-transform: uppercase;">
+          Gateway Details
+        </div>
+        <div style="font-size: 14px; font-weight: 700; color: #831843; margin-top: 2px;">
+          Method: {{payment_method}} (Instant Merchant Settlement)
+        </div>
+        <div style="font-size: 12px; color: #9d174d; margin-top: 4px;">
+          bKash / Nagad Transaction ID: <strong>{{transaction_id}}</strong>
+        </div>
+      </td>
+      <td width="30%" align="center">
+        <div style="border: 2px dashed #f472b6; padding: 6px; border-radius: 8px; display: inline-block; font-size: 10px; color: #9d174d; text-align: center;">
+          <div style="font-size: 20px;">📱</div>
+          [QR Code Verified]
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Download Receipt CTA -->
+  <div style="text-align: center; margin: 28px 0;">
+    <a href="{{receipt_download_url}}" class="btn-primary" style="display: inline-block; background: #059669; color: #ffffff !important; padding: 12px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px;">
+      Download Official NBR Receipt PDF (মুশক ৬.৩) →
+    </a>
+  </div>
+</div>

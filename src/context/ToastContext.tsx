@@ -16,6 +16,7 @@ export interface ToastMessage {
   id: string;
   title: string;
   description?: string;
+  message?: string;
   type: ToastType;
   duration?: number;
 }
@@ -36,9 +37,9 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const addToast = useCallback(
-    ({ title, description, type, duration = 4000 }: Omit<ToastMessage, 'id'>) => {
+    ({ title, description, message, type, duration = 4000 }: Omit<ToastMessage, 'id'>) => {
       const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const newToast: ToastMessage = { id, title, description, type, duration };
+      const newToast: ToastMessage = { id, title, description: description || message, type, duration };
 
       setToasts((prev) => [...prev, newToast]);
 

@@ -3,9 +3,12 @@ import { Tenant } from '../../../types/fsm';
 import { Language, translations, formatDhakaTime } from '../../../lib/i18n';
 import { useTheme } from '../../../context/ThemeContext';
 import { useToast } from '../../../context/ToastContext';
+import { useAuth } from '../../../hooks/useAuth';
 import { Button } from '../../ui/Button';
 import { Badge } from '../../ui/Badge';
 import { NotificationBell } from '../../notifications/NotificationBell';
+import { ConnectionStatus, OnlinePresence, LiveNotificationBell } from '../../realtime';
+import { useSocket } from '../../../hooks/useSocket';
 import {
   Search,
   Command,
@@ -28,6 +31,9 @@ import {
   MapPin,
   X,
   Plus,
+  KeyRound,
+  History,
+  Radio,
 } from 'lucide-react';
 
 interface FSMHeaderProps {
@@ -41,6 +47,8 @@ interface FSMHeaderProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   unreadNotificationCount?: number;
+  onOpenSecurityModal?: (tab: '2fa' | 'password' | 'history') => void;
+  onToggleLiveFeed?: () => void;
 }
 
 export const FSMHeader: React.FC<FSMHeaderProps> = ({
@@ -54,9 +62,13 @@ export const FSMHeader: React.FC<FSMHeaderProps> = ({
   searchQuery,
   onSearchChange,
   unreadNotificationCount = 3,
+  onOpenSecurityModal,
+  onToggleLiveFeed,
 }) => {
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { addToast } = useToast();
+  const { isFeedDrawerOpen, setIsFeedDrawerOpen, unreadEventCount } = useSocket();
   const t = translations[lang];
 
   const [isTenantDropdownOpen, setIsTenantDropdownOpen] = useState(false);
@@ -209,15 +221,50 @@ export const FSMHeader: React.FC<FSMHeaderProps> = ({
         </div>
       </div>
 
-      {/* 3. Right Zone: Actions, Design System, Notifications, Theme, Language, Profile */}
+      {/* 3. Right Zone: Realtime status, Presence, Actions, Design System, Notifications, Theme, Language, Profile */}
       <div className="flex items-center space-x-2 text-xs font-sans">
+        {/* Real-time WebSocket Connection Status */}
+        <div className="hidden sm:block">
+          <ConnectionStatus compact />
+        </div>
+
+        {/* Real-time Field Technicians Online Presence */}
+        <div className="hidden lg:block">
+          <OnlinePresence />
+        </div>
+
+        {/* Live Feed Stream Toggle */}
+        <button
+          onClick={() => {
+            if (onToggleLiveFeed) {
+              onToggleLiveFeed();
+            } else {
+              setIsFeedDrawerOpen(!isFeedDrawerOpen);
+            }
+          }}
+          className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-semibold transition cursor-pointer ${
+            isFeedDrawerOpen
+              ? 'bg-rose-500 text-white border-rose-600 shadow-xs'
+              : 'bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+          }`}
+          title="Toggle Real-time Live Event Feed"
+        >
+          <Radio className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
+          <span className="hidden md:inline">Live Stream</span>
+          {unreadEventCount > 0 && (
+            <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 rounded-full">
+              {unreadEventCount}
+            </span>
+          )}
+        </button>
+
         {/* Quick Create Order Button */}
         <Button
           size="sm"
           variant="primary"
           onClick={onOpenCreateOrder}
           leftIcon={<Plus className="w-3.5 h-3.5" />}
-          className="hidden sm:inline-flex shadow-xs"
+          className="hidden xl:inline-flex shadow-xs"
         >
           <span>{lang === 'bn' ? '+ নতুন কাজ' : '+ New Job'}</span>
         </Button>
@@ -273,28 +320,67 @@ export const FSMHeader: React.FC<FSMHeaderProps> = ({
             }}
             className="flex items-center space-x-1.5 p-1 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white font-bold text-xs flex items-center justify-center shadow-xs ring-2 ring-white dark:ring-slate-800">
-              GP
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white font-bold text-xs flex items-center justify-center shadow-xs ring-2 ring-white dark:ring-slate-800 uppercase font-mono">
+              {user?.firstName?.[0] || 'A'}{user?.lastName?.[0] || 'D'}
             </div>
             <ChevronDown className="w-3 h-3 text-slate-400 hidden sm:block" />
           </button>
 
           {isProfileOpen && (
-            <div className="absolute top-full right-0 mt-1.5 w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 p-1.5 text-xs animate-scale-in space-y-1">
+            <div className="absolute top-full right-0 mt-1.5 w-60 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 p-1.5 text-xs animate-scale-in space-y-1">
               <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
-                <div className="font-bold text-slate-900 dark:text-slate-100">Grameenphone NOC</div>
-                <div className="text-[10px] text-slate-400 font-mono truncate">ops.admin@gp.com.bd</div>
+                <div className="font-bold text-slate-900 dark:text-slate-100 truncate">
+                  {user?.name || 'Md. Shafiqul Islam'}
+                </div>
+                <div className="text-[10px] text-slate-400 font-mono truncate">
+                  {user?.email || 'admin@fieldops.com.bd'}
+                </div>
+                <div className="mt-1 flex items-center gap-1.5">
+                  <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-mono">
+                    {user?.role || 'ADMIN'}
+                  </span>
+                  {user?.isTwoFactorEnabled && (
+                    <span className="text-[9px] font-bold text-emerald-600 flex items-center gap-0.5">
+                      <ShieldCheck className="w-2.5 h-2.5" /> 2FA Active
+                    </span>
+                  )}
+                </div>
               </div>
 
+              {/* Security & 2FA modal trigger */}
               <button
                 onClick={() => {
                   setIsProfileOpen(false);
-                  addToast({ title: 'Profile Settings', description: 'Opening account preferences...', type: 'info' });
+                  if (onOpenSecurityModal) onOpenSecurityModal('2fa');
                 }}
                 className="w-full text-left px-3 py-1.5 rounded-xl flex items-center space-x-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
               >
-                <User className="w-3.5 h-3.5 text-slate-400" />
-                <span>Operator Profile</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Two-Factor Auth (2FA)</span>
+              </button>
+
+              {/* Change Password trigger */}
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  if (onOpenSecurityModal) onOpenSecurityModal('password');
+                }}
+                className="w-full text-left px-3 py-1.5 rounded-xl flex items-center space-x-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-blue-500" />
+                <span>Change Password</span>
+              </button>
+
+              {/* Login History trigger */}
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  if (onOpenSecurityModal) onOpenSecurityModal('history');
+                }}
+                className="w-full text-left px-3 py-1.5 rounded-xl flex items-center space-x-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
+              >
+                <History className="w-3.5 h-3.5 text-purple-500" />
+                <span>Login Activity Log</span>
               </button>
 
               <button
@@ -308,22 +394,11 @@ export const FSMHeader: React.FC<FSMHeaderProps> = ({
                 <span>Design System Guide</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setIsProfileOpen(false);
-                  addToast({ title: 'NBR Tax Invoices', description: 'Exporting VAT 15% ledger...', type: 'payment' });
-                }}
-                className="w-full text-left px-3 py-1.5 rounded-xl flex items-center space-x-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
-              >
-                <FileText className="w-3.5 h-3.5 text-emerald-500" />
-                <span>NBR Invoices & Billing</span>
-              </button>
-
               <div className="border-t border-slate-100 dark:border-slate-800 pt-1 mt-1">
                 <button
                   onClick={() => {
                     setIsProfileOpen(false);
-                    addToast({ title: 'Signed Out', description: 'Session ended securely.', type: 'info' });
+                    logout();
                   }}
                   className="w-full text-left px-3 py-1.5 rounded-xl flex items-center space-x-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition cursor-pointer font-semibold"
                 >

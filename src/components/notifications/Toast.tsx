@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { toastVariants } from '../animations';
 
 export interface ToastProps {
+  key?: React.Key;
   toast: ToastItem;
   onDismiss: (id: string) => void;
 }

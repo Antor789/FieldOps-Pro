@@ -1,0 +1,76 @@
+<div style="font-size: 14px; line-height: 1.6; color: #1e293b;">
+  <!-- Urgent Banner -->
+  <div style="background-color: #fee2e2; border-left: 5px solid #dc2626; padding: 14px 18px; border-radius: 6px; margin-bottom: 20px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>
+          <div style="font-size: 11px; font-weight: 800; color: #991b1b; text-transform: uppercase; letter-spacing: 0.5px;">
+            CRITICAL SLA BREACH INCIDENT / জরুরি এসএলএ লঙ্ঘনের সতর্কতা
+          </div>
+          <div style="font-size: 18px; font-weight: 800; color: #7f1d1d; margin-top: 4px;">
+            Work Order #{{work_order_id}} Exceeded Guaranteed SLA Window
+          </div>
+        </td>
+        <td align="right">
+          <span style="background-color: #ef4444; color: #ffffff; padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 800;">
+            OVERDUE
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <p style="color: #334155; margin-bottom: 20px;">
+    Attention Operations Team & Dispatch Leads: Customer contract commitment for <strong>{{customer_name}}</strong> has breached contractual service limits. Immediate operational intervention is required.
+  </p>
+
+  <!-- SLA Timeline Comparison Box -->
+  <table width="100%" cellpadding="12" cellspacing="0" style="background-color: #fff1f2; border: 1px solid #fecdd3; border-radius: 10px; margin-bottom: 24px;">
+    <tr>
+      <td width="50%" style="border-right: 1px solid #fecdd3;">
+        <div style="font-size: 11px; color: #9f1239; font-weight: 700; text-transform: uppercase;">Agreed SLA Deadline:</div>
+        <div style="font-size: 16px; font-weight: 800; color: #881337; margin-top: 2px;">{{sla_deadline}}</div>
+        <div style="font-size: 12px; color: #be123c;">Max allowable: {{sla_target_minutes}} Minutes</div>
+      </td>
+      <td width="50%" style="padding-left: 16px;">
+        <div style="font-size: 11px; color: #9f1239; font-weight: 700; text-transform: uppercase;">Breach Duration:</div>
+        <div style="font-size: 16px; font-weight: 800; color: #dc2626; margin-top: 2px;">+{{overdue_minutes}} Minutes Past Deadline</div>
+        <div style="font-size: 12px; color: #be123c;">Current Status: {{current_status}}</div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Incident Details -->
+  <table width="100%" cellpadding="10" cellspacing="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 24px; font-size: 13px;">
+    <tr>
+      <td width="30%" style="font-weight: 600; color: #64748b; border-bottom: 1px solid #e2e8f0;">Site Location:</td>
+      <td style="color: #0f172a; font-weight: 700; border-bottom: 1px solid #e2e8f0;">{{site_name}} ({{site_address}})</td>
+    </tr>
+    <tr>
+      <td style="font-weight: 600; color: #64748b; border-bottom: 1px solid #e2e8f0;">Assigned Lead:</td>
+      <td style="color: #0f172a; border-bottom: 1px solid #e2e8f0;">
+        {{technician_name}} (📞 {{technician_phone}})
+      </td>
+    </tr>
+    <tr>
+      <td style="font-weight: 600; color: #64748b;">Contract Penalty Risk:</td>
+      <td style="color: #dc2626; font-weight: 700;">৳{{penalty_risk_bdt}} BDT / 1.5% contract SLA forfeit</td>
+    </tr>
+  </table>
+
+  <!-- Mandatory Action Checklist -->
+  <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 24px;">
+    <div style="font-weight: 700; color: #0f172a; margin-bottom: 6px;">Required Escalation Actions:</div>
+    <ul style="margin: 0; padding-left: 20px; font-size: 12px; color: #475569;">
+      <li>Contact field technician to confirm traffic delay or parts availability.</li>
+      <li>Dispatch secondary backup motorcycle unit if vehicle is stranded.</li>
+      <li>Notify enterprise client account manager with revised ETA.</li>
+    </ul>
+  </div>
+
+  <div style="text-align: center; margin: 24px 0;">
+    <a href="{{dispatch_action_url}}" class="btn-primary" style="display: inline-block; background: #dc2626; color: #ffffff !important; padding: 12px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px;">
+      Take Escalation Action in Live Dispatch Map →
+    </a>
+  </div>
+</div>

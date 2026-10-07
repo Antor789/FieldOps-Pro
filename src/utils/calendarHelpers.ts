@@ -19,7 +19,7 @@ export const MONTHS_BN = [
 /**
  * Format a Date to Bangladesh Dhaka Time or English string
  */
-export function formatCalendarDate(date: Date, locale: 'en' | 'bn' = 'en'): string {
+export function formatCalendarDate(date: Date, locale: string = 'en'): string {
   const d = new Date(date);
   const day = d.getDate();
   const month = locale === 'bn' ? MONTHS_BN[d.getMonth()] : MONTHS_EN[d.getMonth()];
@@ -37,7 +37,7 @@ export function formatCalendarDate(date: Date, locale: 'en' | 'bn' = 'en'): stri
 /**
  * Format hours and minutes to 12-hour AM/PM string
  */
-export function formatTime12H(date: Date, locale: 'en' | 'bn' = 'en'): string {
+export function formatTime12H(date: Date, locale: string = 'en'): string {
   const d = new Date(date);
   let hours = d.getHours();
   const minutes = d.getMinutes();
@@ -129,7 +129,7 @@ export function isToday(date: Date): boolean {
 /**
  * Format duration into human readable string
  */
-export function formatDuration(durationMins: number, locale: 'en' | 'bn' = 'en'): string {
+export function formatDuration(durationMins: number, locale: string = 'en'): string {
   const hrs = Math.floor(durationMins / 60);
   const mins = durationMins % 60;
 

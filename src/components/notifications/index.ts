@@ -14,4 +14,4 @@ export * from './NotificationBell';
 export * from './Toast';
 export * from './ToastContainer';
 export * from './PermissionPrompt';
-export * from './NotificationPreferences';
+export { NotificationPreferences as NotificationPreferencesComponent } from './NotificationPreferences';

@@ -365,7 +365,7 @@ export const INITIAL_PURCHASE_ORDERS: PurchaseOrder[] = [
     status: 'received',
     items: [
       { partId: 'part-trf-001', partSku: 'TRF-001', partName: 'Transformer 11KV', quantity: 5, unitPriceBDT: 38000, totalPriceBDT: 190000, receivedQuantity: 5 },
-      { partId: 'part-flt-001', partSku: 'FLT-001', name: 'Oil Filter Kit', partName: 'Oil Filter Kit', quantity: 20, unitPriceBDT: 850, totalPriceBDT: 17000, receivedQuantity: 20 },
+      { partId: 'part-flt-001', partSku: 'FLT-001', partName: 'Oil Filter Kit', quantity: 20, unitPriceBDT: 850, totalPriceBDT: 17000, receivedQuantity: 20 },
     ],
     subtotalBDT: 207000,
     vatRate: 0.15,

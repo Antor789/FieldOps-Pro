@@ -28,6 +28,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
   onNavigateToKanban,
   onNavigateToMap,
 }) => {
+  const safeLocale: 'en' | 'bn' = locale === 'bn' ? 'bn' : 'en';
   const [selectedPeriod, setSelectedPeriod] = useState<PresetPeriod>('last7days');
   const [jobsOverTimePeriod, setJobsOverTimePeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
 
@@ -62,13 +63,13 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           <DateRangeSelector
             selectedPeriod={selectedPeriod}
             onPeriodChange={setSelectedPeriod}
-            locale={locale}
+            locale={safeLocale}
           />
           <DashboardControls
             onRefresh={refresh}
             isLoading={isLoading}
             lastUpdated={lastUpdated}
-            locale={locale}
+            locale={safeLocale}
           />
         </div>
       </div>
@@ -90,7 +91,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           icon={<ClipboardList className="w-5 h-5" />}
           color="indigo"
           onClick={onNavigateToKanban}
-          locale={locale}
+          locale={safeLocale}
         />
 
         <MetricCard
@@ -108,7 +109,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           icon={<CheckCircle2 className="w-5 h-5" />}
           color="emerald"
           onClick={onNavigateToKanban}
-          locale={locale}
+          locale={safeLocale}
         />
 
         <MetricCard
@@ -125,7 +126,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           sparkline={[58, 54, 52, 49, 48, 50, 47]}
           icon={<Clock className="w-5 h-5" />}
           color="amber"
-          locale={locale}
+          locale={safeLocale}
         />
 
         <MetricCard
@@ -142,7 +143,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           sparkline={[280, 320, 350, 390, 410, 430, 452]}
           icon={<Banknote className="w-5 h-5" />}
           color="sky"
-          locale={locale}
+          locale={safeLocale}
         />
       </div>
 
@@ -156,7 +157,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
               data={data.jobsOverTime}
               period={jobsOverTimePeriod}
               onPeriodChange={(p) => setJobsOverTimePeriod(p as any)}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>
@@ -168,7 +169,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
             <JobsByStatusChart
               data={data.jobsByStatus}
               total={data.totalJobs}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>
@@ -182,7 +183,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           ) : (
             <RevenueByServiceChart
               data={data.revenueByService}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>
@@ -193,7 +194,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           ) : (
             <SLAGauge
               data={data.slaPerformance}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>
@@ -206,7 +207,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
         ) : (
           <TechnicianLeaderboard
             technicians={data.technicianLeaderboard}
-            locale={locale}
+            locale={safeLocale}
           />
         )}
       </div>
@@ -220,7 +221,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
             <DivisionDistribution
               data={data.divisionDistribution}
               onViewMap={onNavigateToMap}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>
@@ -231,7 +232,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardPageProps> = ({
           ) : (
             <ActivityFeed
               activities={data.recentActivity}
-              locale={locale}
+              locale={safeLocale}
             />
           )}
         </div>

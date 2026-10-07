@@ -1,0 +1,70 @@
+<div style="font-size: 15px; line-height: 1.6; color: #1e293b;">
+  <div style="background-color: #e0e7ff; color: #3730a3; padding: 6px 12px; border-radius: 6px; display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">
+    Work Order Assigned / নতুন কাজের দায়িত্ব অর্পণ
+  </div>
+  
+  <h2 style="margin: 0 0 8px 0; color: #0f172a; font-size: 20px; font-weight: 700;">
+    Hello {{technician_name}},
+  </h2>
+  <p style="margin: 0 0 20px 0; color: #475569;">
+    A new service job <strong>#{{work_order_id}}</strong> has been assigned to you by the Dhaka dispatch team. Please review the customer details and travel timeline below.
+  </p>
+
+  <!-- Job Details Card -->
+  <table width="100%" cellpadding="12" cellspacing="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 24px;">
+    <tr>
+      <td width="35%" style="border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Job Title:</td>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 14px; font-weight: 700;">{{work_order_title}}</td>
+    </tr>
+    <tr>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Priority & SLA:</td>
+      <td style="border-bottom: 1px solid #e2e8f0;">
+        <span style="background-color: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700;">
+          {{priority}}
+        </span>
+        <span style="font-size: 12px; color: #64748b; margin-left: 8px;">Target: {{sla_deadline}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Customer:</td>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 14px;">
+        <strong>{{customer_name}}</strong><br>
+        <span style="color: #64748b; font-size: 13px;">📞 Phone: {{customer_phone}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; font-weight: 600;">Location & Landmark:</td>
+      <td style="border-bottom: 1px solid #e2e8f0; color: #0f172a; font-size: 13px;">
+        📍 {{site_address}}, {{thana}}, {{division}}<br>
+        <span style="color: #64748b; font-size: 12px;">Landmark: {{landmark}}</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="color: #64748b; font-size: 13px; font-weight: 600;">Scheduled Start:</td>
+      <td style="color: #0f172a; font-size: 13px; font-weight: 600;">{{scheduled_start_time}}</td>
+    </tr>
+  </table>
+
+  <!-- Location Map Link Box -->
+  <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px; margin-bottom: 24px;">
+    <div style="font-weight: 700; color: #166534; font-size: 13px; margin-bottom: 4px;">
+      🗺️ Navigation & Location Link
+    </div>
+    <div style="font-size: 12px; color: #15803d;">
+      Open site coordinates directly in Google Maps for traffic-aware Dhaka routing:
+      <br>
+      <a href="{{map_url}}" style="color: #047857; font-weight: 600; text-decoration: underline;">Launch Turn-by-Turn GPS Navigation →</a>
+    </div>
+  </div>
+
+  <!-- CTA Button -->
+  <div style="text-align: center; margin: 30px 0;">
+    <a href="{{job_details_url}}" class="btn-primary" style="display: inline-block; background: #4f46e5; color: #ffffff !important; padding: 12px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px;">
+      View Job Details in Field App / কাজের বিস্তারিত দেখুন
+    </a>
+  </div>
+
+  <p style="font-size: 13px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+    Need immediate dispatch assistance? Contact Dhaka NOC Hotline at +880 9612-445566 or reply to this message.
+  </p>
+</div>

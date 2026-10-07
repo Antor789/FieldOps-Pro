@@ -43,12 +43,16 @@ export const checkmarkVariants = {
   },
 };
 
-export interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface AnimatedButtonProps {
   isLoading?: boolean;
   isSuccess?: boolean;
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'emerald';
   children: React.ReactNode;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  [key: string]: any;
 }
 
 export function AnimatedButton({

@@ -31,7 +31,8 @@ const SAMPLE_REVENUE_TREND = [
 ];
 
 export const RevenueChart: React.FC<RevenueChartProps> = ({ locale = 'en' }) => {
-  const { isDark } = useTheme();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <div className="h-64 w-full">

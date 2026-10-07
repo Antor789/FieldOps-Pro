@@ -5,6 +5,7 @@ import { Check, Trash2, Clock, ArrowRight, ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export interface NotificationItemProps {
+  key?: React.Key;
   notification: NotificationItemData;
   onMarkAsRead: (id: string) => void;
   onDelete: (id: string) => void;

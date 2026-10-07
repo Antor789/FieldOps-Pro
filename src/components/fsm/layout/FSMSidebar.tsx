@@ -15,6 +15,11 @@ import {
   Eye,
   Radio,
   Flame,
+  ShieldCheck,
+  Activity,
+  Mail,
+  FileCheck,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { Language } from '../../../lib/i18n';
 
@@ -24,9 +29,14 @@ export type FSMNavSection =
   | 'schedule'
   | 'technicians'
   | 'customers'
+  | 'contracts'
+  | 'quotations'
   | 'live-map'
   | 'inventory'
   | 'reports'
+  | 'users'
+  | 'audit'
+  | 'email'
   | 'settings'
   | 'field-pwa'
   | 'customer-portal';
@@ -97,6 +107,22 @@ export const FSMSidebar: React.FC<FSMSidebarProps> = ({
       icon: <Building2 className="w-4 h-4 shrink-0" />,
     },
     {
+      id: 'contracts',
+      labelEn: 'Contracts & SLA',
+      labelBn: 'চুক্তি ও এসএলএ',
+      icon: <FileCheck className="w-4 h-4 shrink-0 text-blue-500" />,
+      badge: 'AMC',
+      badgeColor: 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+    },
+    {
+      id: 'quotations',
+      labelEn: 'Quotations & Estimates',
+      labelBn: 'কোটেশন ও প্রাক্কলন',
+      icon: <FileSpreadsheet className="w-4 h-4 shrink-0 text-amber-500" />,
+      badge: '15% VAT',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
+    },
+    {
       id: 'live-map',
       labelEn: 'Live Map (GPS)',
       labelBn: 'লাইভ ম্যাপ (GPS)',
@@ -117,6 +143,30 @@ export const FSMSidebar: React.FC<FSMSidebarProps> = ({
       icon: <BarChart3 className="w-4 h-4 shrink-0" />,
       badge: 'VAT 15%',
       badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
+    },
+    {
+      id: 'users',
+      labelEn: 'Users & RBAC',
+      labelBn: 'ইউজার ও পদবি',
+      icon: <ShieldCheck className="w-4 h-4 shrink-0 text-purple-500" />,
+      badge: 'Roles',
+      badgeColor: 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
+    },
+    {
+      id: 'audit',
+      labelEn: 'Audit Log & NBR',
+      labelBn: 'অডিট লগ ও এনবিআর',
+      icon: <Activity className="w-4 h-4 shrink-0 text-emerald-500" />,
+      badge: '520+',
+      badgeColor: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300',
+    },
+    {
+      id: 'email',
+      labelEn: 'Email & SMTP',
+      labelBn: 'ইমেইল ও নোটিফিকেশন',
+      icon: <Mail className="w-4 h-4 shrink-0 text-indigo-500" />,
+      badge: '12 Tpl',
+      badgeColor: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300',
     },
     {
       id: 'settings',

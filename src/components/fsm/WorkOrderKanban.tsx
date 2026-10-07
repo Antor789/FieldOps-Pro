@@ -176,7 +176,7 @@ export const WorkOrderKanban: React.FC<WorkOrderKanbanProps> = ({
         setDispatchingWoId(null);
         addToast({
           title: `AI Matched: ${result.assignedTechnician.technicianName}`,
-          description: `Composite Score: ${result.assignedTechnician.compositeScore}/100 • Travel ETA: ${result.assignedTechnician.travelTimeMinutes}m`,
+          description: `Composite Score: ${result.assignedTechnician.compositeScore}/100 • Travel ETA: ${result.assignedTechnician.estimatedTravelTimeMins}m`,
           type: 'ai',
         });
       }, 350);

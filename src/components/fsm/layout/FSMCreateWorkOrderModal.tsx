@@ -55,7 +55,7 @@ export const FSMCreateWorkOrderModal: React.FC<FSMCreateWorkOrderModalProps> = (
         longitude: 90.4078 + (Math.random() - 0.5) * 0.05,
         division: 'DHAKA',
         district: 'Dhaka',
-        thana: 'Gulshan',
+        thanaUpazila: 'Gulshan',
         address: landmark,
         landmark,
       },
