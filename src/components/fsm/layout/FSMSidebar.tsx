@@ -20,6 +20,9 @@ import {
   Mail,
   FileCheck,
   FileSpreadsheet,
+  Clock,
+  Navigation,
+  Star,
 } from 'lucide-react';
 import { Language } from '../../../lib/i18n';
 
@@ -27,8 +30,11 @@ export type FSMNavSection =
   | 'dashboard'
   | 'work-orders'
   | 'schedule'
+  | 'shifts'
   | 'technicians'
+  | 'routes'
   | 'customers'
+  | 'feedback'
   | 'contracts'
   | 'quotations'
   | 'live-map'
@@ -101,10 +107,26 @@ export const FSMSidebar: React.FC<FSMSidebarProps> = ({
       badgeColor: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300',
     },
     {
+      id: 'shifts',
+      labelEn: 'Shifts & Roster',
+      labelBn: 'শিফট ও রোস্টার',
+      icon: <Clock className="w-4 h-4 shrink-0 text-amber-500" />,
+      badge: 'Fri Off',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
+    },
+    {
       id: 'customers',
       labelEn: 'Customers',
       labelBn: 'গ্রাহক তালিকা',
       icon: <Building2 className="w-4 h-4 shrink-0" />,
+    },
+    {
+      id: 'feedback',
+      labelEn: 'Customer Feedback',
+      labelBn: 'কাস্টমার ফিডব্যাক ও সার্ভে',
+      icon: <Star className="w-4 h-4 shrink-0 text-amber-500" />,
+      badge: 'NPS +78',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
     },
     {
       id: 'contracts',
@@ -129,6 +151,14 @@ export const FSMSidebar: React.FC<FSMSidebarProps> = ({
       icon: <Map className="w-4 h-4 shrink-0" />,
       badge: 'Dhaka',
       badgeColor: 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+    },
+    {
+      id: 'routes',
+      labelEn: 'Route Optimizer',
+      labelBn: 'রুট অপ্টিমাইজার (TSP)',
+      icon: <Navigation className="w-4 h-4 shrink-0 text-amber-500" />,
+      badge: 'TSP AI',
+      badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300',
     },
     {
       id: 'inventory',

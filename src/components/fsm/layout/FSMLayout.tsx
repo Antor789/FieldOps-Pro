@@ -41,6 +41,26 @@ import {
   QuotationBuilder,
   QuotationView,
 } from '../../../pages/quotations';
+import {
+  ShiftManagement,
+  ShiftScheduler,
+  AvailabilityDashboard,
+  LeaveManagement,
+  ShiftReport,
+} from '../../../pages/shifts';
+import {
+  RoutePlanner,
+  RouteOptimizationResult,
+  DailyDispatch,
+  RouteHistory,
+} from '../../../pages/routes';
+import {
+  FeedbackDashboard,
+  FeedbackForm,
+  FeedbackDetail,
+  SurveyBuilder,
+  NPSReport,
+} from '../../../pages/feedback';
 import { NotificationPreferences } from '../../notifications/NotificationPreferences';
 import { SecuritySettingsModal } from '../../auth';
 import { ConnectionStatus, LiveFeed, RealtimeControlToolbar } from '../../realtime';
@@ -96,6 +116,15 @@ export const FSMLayout: React.FC = () => {
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null);
   const [selectedTechnician, setSelectedTechnician] = useState<Technician | null>(null);
   const [isDispatchingAll, setIsDispatchingAll] = useState<boolean>(false);
+
+  // Shifts Navigation Tab
+  const [shiftsTab, setShiftsTab] = useState<'roster' | 'scheduler' | 'availability' | 'leaves' | 'reports'>('roster');
+
+  // Routes Navigation Tab
+  const [routesTab, setRoutesTab] = useState<'planner' | 'result' | 'dispatch' | 'history'>('planner');
+
+  // Feedback Navigation Tab
+  const [feedbackTab, setFeedbackTab] = useState<'dashboard' | 'public_form' | 'survey_builder' | 'nps_report'>('dashboard');
 
   // Service Agreements & Contracts State
   const [contracts, setContracts] = useState<Contract[]>(INITIAL_CONTRACTS);
@@ -548,10 +577,13 @@ export const FSMLayout: React.FC = () => {
     dashboard: lang === 'bn' ? 'অপারেশনাল ড্যাশবোর্ড' : 'Operational Dashboard',
     'work-orders': lang === 'bn' ? 'ওয়ার্ক অর্ডার ও ডিসপ্যাচ বোর্ড' : 'Work Order & Dispatch Board',
     technicians: lang === 'bn' ? 'ফিল্ড টেকনিশিয়ান ও জিপিএস ট্র্যাক' : 'Field Technicians & Fleet Radar',
+    shifts: lang === 'bn' ? 'টেকনিশিয়ান শিফট ও এভেইলেবিলিটি রোস্টার' : 'Technician Shift Roster & Availability',
     customers: lang === 'bn' ? 'এন্টারপ্রাইজ ক্লায়েন্ট তালিকা' : 'Enterprise Customer Directory',
+    feedback: lang === 'bn' ? 'কাস্টমার ফিডব্যাক ও এনপিএস ড্যাশবোর্ড' : 'Customer Feedback & CSAT Survey Intelligence',
     contracts: lang === 'bn' ? 'সার্ভিস এগ্রিমেন্ট ও বার্ষিক চুক্তি (AMC/SLA)' : 'Service Agreements & Contracts (AMC/SLA)',
     quotations: lang === 'bn' ? 'কোটেশন ও প্রাক্কলন সিস্টেম (১৫% ভ্যাট)' : 'Quotations & Estimates (15% NBR VAT)',
     'live-map': lang === 'bn' ? 'ঢাকা লাইভ কমান্ড জিপিএস ম্যাপ' : 'Dhaka Live GPS Command Map',
+    routes: lang === 'bn' ? 'ঢাকা রুট অপ্টিমাইজার ও টিএসপি সিস্টেম' : 'Dhaka Route Optimizer & Multi-Stop TSP',
     schedule: lang === 'bn' ? 'ক্যালেন্ডার ও ডিসপ্যাচ শিডিউল' : 'Calendar & Dispatch Schedule',
     inventory: lang === 'bn' ? 'যানবাহন ও ভ্যান যন্ত্রাংশ ইনভেন্টরি' : 'Vehicle & Van Inventory Stock',
     reports: lang === 'bn' ? 'এনবিআর ভ্যাট ও এসএলএ পারফরম্যান্স রিপোর্ট' : 'NBR VAT Invoicing & SLA Reports',
@@ -909,12 +941,107 @@ export const FSMLayout: React.FC = () => {
               </div>
             )}
 
+            {/* TECHNICIAN SHIFTS & AVAILABILITY ROSTER SECTION */}
+            {activeSection === 'shifts' && (
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 flex flex-wrap items-center gap-1.5 shadow-xs">
+                  {[
+                    { id: 'roster', label: 'Weekly Shift Roster' },
+                    { id: 'scheduler', label: 'Smart Scheduler & Bulk' },
+                    { id: 'availability', label: "Today's Live Availability" },
+                    { id: 'leaves', label: 'Leaves & BD Holidays' },
+                    { id: 'reports', label: 'Shift & Overtime Reports' },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setShiftsTab(tab.id as any)}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer ${
+                        shiftsTab === tab.id
+                          ? 'bg-amber-500 text-slate-950 shadow-xs'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {shiftsTab === 'roster' && <ShiftManagement />}
+                {shiftsTab === 'scheduler' && <ShiftScheduler />}
+                {shiftsTab === 'availability' && <AvailabilityDashboard />}
+                {shiftsTab === 'leaves' && <LeaveManagement />}
+                {shiftsTab === 'reports' && <ShiftReport />}
+              </div>
+            )}
+
+            {/* DHAKA ROUTE OPTIMIZER & MULTI-STOP TSP SECTION */}
+            {activeSection === 'routes' && (
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 flex flex-wrap items-center gap-1.5 shadow-xs">
+                  {[
+                    { id: 'planner', label: '🔀 Route Planner (TSP)' },
+                    { id: 'result', label: '📊 Optimization Results' },
+                    { id: 'dispatch', label: '🗺️ Master Fleet Dispatch' },
+                    { id: 'history', label: '📜 Route History & Heatmap' },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setRoutesTab(tab.id as any)}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer ${
+                        routesTab === tab.id
+                          ? 'bg-amber-500 text-slate-950 shadow-xs'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {routesTab === 'planner' && <RoutePlanner />}
+                {routesTab === 'result' && <RouteOptimizationResult />}
+                {routesTab === 'dispatch' && <DailyDispatch />}
+                {routesTab === 'history' && <RouteHistory />}
+              </div>
+            )}
+
             {/* CUSTOMERS & SITES CRM SECTION */}
             {activeSection === 'customers' && (
               <CustomersPage
                 locale={lang}
                 onCreateJob={() => setIsCreateOrderOpen(true)}
               />
+            )}
+
+            {/* CUSTOMER FEEDBACK & SURVEY SYSTEM SECTION */}
+            {activeSection === 'feedback' && (
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 flex flex-wrap items-center gap-1.5 shadow-xs">
+                  {[
+                    { id: 'dashboard', label: '⭐ Feedback Dashboard' },
+                    { id: 'public_form', label: '📝 Public Feedback Form' },
+                    { id: 'survey_builder', label: '🛠️ Survey Builder' },
+                    { id: 'nps_report', label: '🏆 Net Promoter Score (NPS)' },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setFeedbackTab(tab.id as any)}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer ${
+                        feedbackTab === tab.id
+                          ? 'bg-amber-500 text-slate-950 shadow-xs'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {feedbackTab === 'dashboard' && <FeedbackDashboard />}
+                {feedbackTab === 'public_form' && <FeedbackForm />}
+                {feedbackTab === 'survey_builder' && <SurveyBuilder />}
+                {feedbackTab === 'nps_report' && <NPSReport />}
+              </div>
             )}
 
             {/* CONTRACTS & SERVICE LEVEL AGREEMENT (AMC/SLA) SECTION */}
